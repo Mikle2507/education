@@ -1,0 +1,23 @@
+.status-block {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  right: 2rem;
+  bottom: 2rem;
+  z-index: 9;
+}
+
+.status-block__item {
+  padding: 2rem 3rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.6rem;
+  font-size: 1.6rem;
+  line-height: 1;
+  background-color: var(--color-grey);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.status-block__item--show {
+  opacity: 1;
+}
