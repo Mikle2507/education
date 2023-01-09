@@ -8,7 +8,7 @@
   text-align: left;
 }
 
-.users__header{
+.users__header {
   padding: 0 2rem 0.8rem;
   font-size: 1.2rem;
   line-height: 1.6rem;
@@ -20,6 +20,7 @@
 .section-users__body {
   position: relative;
 }
+
 .section-users--loading .section-users__body::after {
   content: '';
   position: absolute;
@@ -37,9 +38,11 @@
   text-align: left;
   transition: color 0.3s ease-in-out;
 }
+
 .btn-sort--selected {
   color: var(--color-firm);
 }
+
 .btn-sort:focus-visible {
   color: var(--color-dark);
 }
@@ -73,12 +76,20 @@
   opacity: 0.7;
 }
 
-.users__item{
+.users__item {
   padding: 2rem;
   font-size: 1.4rem;
   line-height: 1.9rem;
   background-color: var(--color-light);
   border-bottom: 0.1rem solid rgb(200 197 209 / 50%);
+}
+
+.users_element--search .users__item {
+  background-color: #fff4b2;
+}
+
+.users_element--search .users__item-name {
+  font-weight: 700;
 }
 
 .users__item-id {
@@ -88,15 +99,33 @@
 }
 
 .spin-area {
-  position: relative;
   display: none;
-  height: 30rem;
+}
+
+.section-users--loading .spin-area {
+  position: relative;
+  height: 10rem;
   background-color: var(--color-light);
 }
 
 .section-users--loading .spinner,
-.section-users--loading .spin-area{
+.section-users--loading .spin-area,
+.section-search--loading .spinner,
+.section-search--loading .spin-area {
   display: block;
+}
+
+.section-search--loading .spin-area {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9;
+}
+
+.section-search--loading .users {
+  opacity: .6;
 }
 
 
@@ -111,11 +140,12 @@
   height: var(--size);
   top: 50%;
   left: 50%;
-  margin: calc( var(--size) / -2) 0 0 calc( var(--size) / -2);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
 }
 
 .btn-callmodal-add-user {
   margin-top: 4rem;
+  white-space: nowrap;
 }
 
 .users__item-date {
@@ -137,15 +167,18 @@
 .users__btn-edit {
   margin-right: 3rem;
 }
+
 .users__btn-edit-svg,
-.users__btn-delete-svg{
+.users__btn-delete-svg {
   width: 1.6rem;
   height: 1.6rem;
   margin-right: 0.3rem;
 }
+
 .users__btn-edit-svg {
   fill: var(--color-firm);
 }
+
 .users__btn-delete-svg {
   fill: var(--color-red);
 }
@@ -158,15 +191,15 @@
 
 }
 
-.users__btn-edit .users__btn-svg-spinner  {
+.users__btn-edit .users__btn-svg-spinner {
   stroke: var(--color-firm);
 }
 
-.users__btn-delete .users__btn-svg-spinner  {
+.users__btn-delete .users__btn-svg-spinner {
   stroke: var(--color-red);
 }
 
-.users__btn--loading .users__btn-svg-spinner{
+.users__btn--loading .users__btn-svg-spinner {
   position: static;
   display: block;
   margin-right: 0.3rem;
@@ -180,6 +213,7 @@
 .users__btn--loading.users__btn-edit {
   color: var(--color-firm);
 }
+
 .users__btn--loading.users__btn-delete {
   color: var(--color-red);
 }
@@ -187,6 +221,7 @@
 .users__btn-edit:focus-visible {
   color: var(--color-firm);
 }
+
 .users__btn-delete:focus-visible {
   color: var(--color-red);
 }
@@ -201,11 +236,13 @@
   margin-right: -0.2rem;
   width: 10rem;
 }
+
 .users__contact {
   padding-left: 0.2rem;
   padding-right: 0.2rem;
   margin-bottom: 0.4rem;
 }
+
 .users__contact-link {
   position: relative;
   display: block;
@@ -215,9 +252,11 @@
   height: 1.6rem;
   border-radius: 50%;
 }
+
 .users__contact-link:last-child {
   margin-right: 0;
 }
+
 .users__contact-link-svg {
   width: 1.6rem;
   height: 1.6rem;
@@ -225,6 +264,7 @@
   opacity: 0.7;
   transition: opacity .3s ease-in-out;
 }
+
 .users__contact-link--more {
   width: 1.6rem;
   height: 1.6rem;
@@ -234,7 +274,8 @@
   line-height: 1.3rem;
   transition: background-color .3s ease-in-out, color .3s ease-in-out;
 }
-.tooltip--active .users__contact-link-svg{
+
+.tooltip--active .users__contact-link-svg {
   opacity: 1;
 }
 
@@ -242,6 +283,7 @@
   .btn-sort:hover {
     color: var(--color-dark);
   }
+
   .btn-sort:hover .btn-sort__measure,
   .btn-sort:hover .btn-sort__svg {
     opacity: 1;
@@ -250,6 +292,7 @@
   .users__btn-edit:hover {
     color: var(--color-firm);
   }
+
   .users__btn-delete:hover {
     color: var(--color-red);
   }
@@ -257,6 +300,7 @@
   .users__contact-link-svg:hover {
     opacity: 1;
   }
+
   .users__contact-link--more:hover {
     background-color: var(--color-firm-dark);
     color: var(--color-light);
@@ -277,6 +321,7 @@
     display: block;
   }
 }
+
 @media (max-width: 768px) {
   .section-users__body {
     overflow: auto;
@@ -287,6 +332,7 @@
     padding-bottom: 2rem;
     margin-bottom: 2rem;
   }
+
   .users {
     width: 72.8rem;
   }

@@ -16,6 +16,7 @@
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
+
 .scrollbar-hidden::-webkit-scrollbar {
   width: 0;
   height: 0;

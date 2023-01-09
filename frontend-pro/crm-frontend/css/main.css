@@ -12,6 +12,7 @@
   --color-red: #F06A4D;
 
 }
+
 @font-face {
   font-family: "Open Sans";
   font-display: swap;
@@ -51,6 +52,7 @@ html {
   font-family: "Open Sans", Arial, sans-serif;
   font-size: 62.5%;
 }
+
 body {
   font-size: 1.6rem;
   background: #E5E5E5;
@@ -70,6 +72,7 @@ button {
   border: 0;
   background: none;
 }
+
 button:focus-visible {
   outline: -webkit-focus-ring-color auto 0;
 }
@@ -87,11 +90,12 @@ input {
   border: 0;
   background: transparent;
 }
+
 input:focus {
   outline: none;
 }
 
-ul{
+ul {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -100,27 +104,32 @@ ul{
 .d-none {
   display: none !important;
 }
+
 .overflow-hidden {
   overflow: hidden;
 }
+
 .container-lg {
   margin: 0 auto;
   padding-right: 2rem;
   padding-left: 2rem;
   max-width: 136.6rem;
 }
+
 .container {
   max-width: 122.6rem;
   margin: 0 auto;
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
 .section-title {
   margin: 0 0 2.5rem;
   font-weight: 700;
   font-size: 2.4rem;
   line-height: 3.3rem;
 }
+
 .spinner {
   position: absolute;
   display: none;
@@ -131,7 +140,7 @@ ul{
 
   transition: transform 0.5s ease;
   -webkit-animation: rotate 0.7s infinite linear;
-          animation: rotate 0.7s infinite linear;
+  animation: rotate 0.7s infinite linear;
 }
 
 
@@ -139,9 +148,11 @@ ul{
 .tooltip {
   position: relative;
 }
-.tooltip--active .tooltip__content{
+
+.tooltip--active .tooltip__content {
   display: block;
 }
+
 .tooltip__content {
   position: absolute;
   left: 50%;
@@ -155,6 +166,7 @@ ul{
   color: var(--color-light);
   background-color: var(--color-dark-medium);
 }
+
 .tooltip__content::before {
   content: '';
   position: absolute;
@@ -176,6 +188,7 @@ ul{
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -185,8 +198,8 @@ ul{
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
-

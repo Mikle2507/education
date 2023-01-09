@@ -9,6 +9,39 @@
   z-index: 1;
 }
 
+.field-text--error {
+  border-color: var(--color-red);
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-input-hints {
+  position: absolute;
+  top: 102%;
+  left: 0;
+  display: none;
+  background: var(--color-light);
+}
+
+.search-input-hints--show {
+  display: block;
+}
+
+.search-input-hints__item {
+  padding: 1rem 2.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: background-color 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.search-input-hints__item:last-child {
+  margin-bottom: 0;
+}
+
 .search-input {
   padding: 1.2rem 1.6rem 1.1rem;
   font-weight: 400;
@@ -31,9 +64,11 @@
 .form__btn-wrapper {
   margin-bottom: 0.5rem;
 }
+
 .form__btn-wrapper:last-child {
   margin-bottom: 0;
 }
+
 .form__btn-add-contact {
   display: flex;
   align-items: center;
@@ -51,6 +86,7 @@
   margin-left: auto;
   margin-right: auto;
 }
+
 .form__errors-message {
   margin-bottom: 1rem;
   font-weight: 400;
@@ -64,6 +100,7 @@
 .fields-group {
   margin-bottom: 2.5rem;
 }
+
 .fields-group--no-mb {
   margin-bottom: 0;
 }
@@ -71,11 +108,13 @@
 .modal__row--short .fields-group {
   display: none;
 }
+
 .field-row {
   display: flex;
   margin-bottom: 1.5rem;
 }
-.field-row:last-child{
+
+.field-row:last-child {
   margin-bottom: 0;
 }
 
@@ -85,9 +124,11 @@
   margin-bottom: 1rem;
   cursor: pointer;
 }
+
 .field-wrapper:last-child {
   margin-bottom: 0;
 }
+
 .field-desc {
   position: absolute;
   top: 50%;
@@ -105,7 +146,7 @@
 }
 
 .field-wrapper--no-empty .field-desc,
-.field-text:focus + .field-desc{
+.field-text:focus+.field-desc {
   transform: scale(.8) translateY(-100%);
 }
 
@@ -132,6 +173,7 @@
 .field-text-border::placeholder {
   color: var(--color-grey);
 }
+
 .delete-contact {
   margin-left: -0.1rem;
   width: 2.7rem;
@@ -139,6 +181,7 @@
   background-color: var(--color-grey-light);
   transition: border-color .3s ease-in-out;
 }
+
 .delete-contact__svg {
   width: 1.2rem;
   height: 1.2rem;
@@ -154,16 +197,18 @@
 
   background: transparent;
 }
+
 .field-input:focus {
   outline: none;
 }
 
 
-.field-select {
+.field-contact {
   position: relative;
   width: 12.3rem;
 }
-.field-select__input {
+
+.field-contact__input {
   position: relative;
   width: calc(100% + 0.1rem);
   padding: 0.8rem 1.2rem;
@@ -174,7 +219,8 @@
   text-align: left;
   background-color: var(--color-grey-light);
 }
-.field-select__value {
+
+.field-contact__value {
   font-weight: 400;
   font-size: 1.2rem;
   line-height: 1.9rem;
@@ -183,14 +229,16 @@
   max-width: 100%;
   text-overflow: ellipsis;
 }
-.field-select__arrow {
+
+.field-contact__arrow {
   width: 1.2rem;
   height: 1.2rem;
   flex: 0 0 auto;
   fill: var(--color-firm);
   transition: transform .3s ease-in-out;
 }
-.field-select__list {
+
+.field-contact__list {
   position: absolute;
   left: 0;
   top: 100%;
@@ -203,24 +251,26 @@
   z-index: 3;
   transition: opacity .3s ease-in-out, transform .3s ease-in-out;
 }
-.field-select:not(.field-select--display) .field-select__list {
+
+.field-contact:not(.field-contact--display) .field-contact__list {
   display: none;
 }
-.field-select:not(.field-select--show) .field-select__list {
+
+.field-contact:not(.field-contact--show) .field-contact__list {
   transform: translateY(-2rem);
   opacity: 0;
 }
 
-.field-select--show .field-select__list{
+.field-contact--show .field-contact__list {
   opacity: 1;
   transform: translateY(-0.1rem);
 }
 
-.field-select--show .field-select__arrow {
+.field-contact--show .field-contact__arrow {
   transform: rotate(-180deg);
 }
 
-.field-select__item {
+.field-contact__item {
   display: block;
   padding: 1rem 1.2rem;
   font-size: 1.2rem;
@@ -228,10 +278,12 @@
   cursor: pointer;
   transition: background-color .3s ease-in-out;
 }
-.field-select__item--selected {
+
+.field-contact__item--selected {
   display: none;
 }
-.field-select__radio {
+
+.field-contact__radio {
   position: absolute;
   top: 0;
   left: 0;
@@ -239,7 +291,14 @@
   opacity: 0;
 }
 
-@media (min-width: 102.4rem) {
+.field-contact-row--error .field-contact__input,
+.field-contact-row--error .field-text-contact,
+.field-contact-row--error .delete-contact {
+  border-color: var(--color-red);
+}
+
+
+@media (min-width: 1024px) {
 
   .form__errors-messages {
     max-width: 25.5rem;
@@ -248,11 +307,13 @@
   .form__btn-add-contact:hover {
     color: var(--color-firm);
   }
-  .form__btn-add-contact:hover .btn-svg-wrapper{
+
+  .form__btn-add-contact:hover .btn-svg-wrapper {
     border-color: var(--color-firm);
     background-color: var(--color-firm);
   }
-  .form__btn-add-contact:hover .btn-svg{
+
+  .form__btn-add-contact:hover .btn-svg {
     fill: var(--color-light);
   }
 
@@ -260,11 +321,12 @@
     border-color: var(--color-red);
   }
 
-  .delete-contact:hover .delete-contact__svg{
+  .delete-contact:hover .delete-contact__svg {
     fill: var(--color-red);
   }
 
-  .field-select__item:hover {
+  .search-input-hints__item:hover,
+  .field-contact__item:hover {
     background-color: #dfdfdf;
   }
 

@@ -5,13 +5,15 @@
   const LOGOTYPE_ALT = "Логотип";
   const MAX_COUNT_ADD_CONTACTS = 10;
   const MAX_COUNT_USER_CONTACTS = 5;
+  const searchHint = true;
+
+  let usersData = [];
 
   let currentUserId = null;
   let appContainer = null;
   let statusBlock = null;
   let modal = null;
   let countSelectContacts = 0;
-  let usersData = [];
 
   let orderBy = "id";
   let sortBy = "asc";
@@ -38,51 +40,40 @@
 
   function sortUsers(a, b) {
 
-    if(orderBy === "id") {
-      if(sortBy === "asc") {
+    if (orderBy === "id") {
+      if (sortBy === "asc") {
         return a[orderBy] - b[orderBy];
-      }
-      else {
+      } else {
         return b[orderBy] - a[orderBy];
       }
-    }
-
-    else if(orderBy === "name") {
+    } else if (orderBy === "name") {
 
       const aName = [a.surname, a.name, a.lastName].join(" ");
       const bName = [b.surname, b.name, b.lastName].join(" ");
 
-      if(sortBy === "asc") {
+      if (sortBy === "asc") {
         if (aName < bName)
           return -1;
-        if ( aName > bName)
+        if (aName > bName)
           return 1;
         return 0;
-      }
-      else {
+      } else {
         if (aName > bName)
           return -1;
-        if ( aName < bName)
+        if (aName < bName)
           return 1;
         return 0;
       }
-    }
-
-
-    else if(orderBy === "createdate") {
-      if(sortBy === "asc") {
+    } else if (orderBy === "createdate") {
+      if (sortBy === "asc") {
         return new Date(a.createdAt) - new Date(b.createdAt);
-      }
-      else {
+      } else {
         return new Date(b.createdAt) - new Date(a.createdAt);
       }
-    }
-
-    else if(orderBy === "updatedate") {
-      if(sortBy === "asc") {
+    } else if (orderBy === "updatedate") {
+      if (sortBy === "asc") {
         return new Date(a.updatedAt) - new Date(b.updatedAt);
-      }
-      else {
+      } else {
         return new Date(b.updatedAt) - new Date(a.updatedAt);
       }
     }
@@ -95,27 +86,27 @@
     return block;
   }
 
-  function startLoadingUsersBlock () {
+  function startLoadingUsersBlock() {
     const block = appContainer.querySelector(".section-users");
     block.classList.add("section-users--loading");
   }
 
-  function stopLoadingUsersBlock () {
+  function stopLoadingUsersBlock() {
     const block = appContainer.querySelector(".section-users");
     block.classList.remove("section-users--loading");
   }
 
-  async function getData () {
+  async function getData() {
 
-    startLoadingUsersBlock ();
+    startLoadingUsersBlock();
 
-    await wait(200);
+    await wait(500);
 
     try {
 
       const res = await fetch(`${HOST}/api/clients/`);
 
-      if(res.status === 200) {
+      if (res.status === 200) {
         return res.json();
       }
 
@@ -132,10 +123,10 @@
   function renderUsers(data) {
     const body = appContainer.querySelector(".users__list");
     body.innerHTML = "";
-    if(data.length) {
+    if (data.length) {
       data.sort(sortUsers);
 
-      for(let i=0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         const item = data[i];
         const user = createUser(item);
         body.append(user);
@@ -157,9 +148,9 @@
       "controls"
     ];
 
-    const nodeTd={};
+    const nodeTd = {};
 
-    for(let i=0; i<list.length; i++) {
+    for (let i = 0; i < list.length; i++) {
       const td = document.createElement("td");
       td.classList.add("users__item", `users__item-${list[i]}`);
       nodeTd[list[i]] = td;
@@ -169,7 +160,7 @@
     user.classList.add("users_element");
 
     nodeTd.id.textContent = data.id;
-    nodeTd.name.textContent = [data.surname, data.name, data.lastName].join(" ");
+    nodeTd.name.textContent = [data.surname, data.name, data.lastName].join(" ").trim();
 
     btnEdit.innerHTML = `
       <svg class="users__btn-edit-svg">
@@ -201,7 +192,7 @@
 
     const contacts = createUserContacts(data.contacts);
 
-    if(contacts) {
+    if (contacts) {
       nodeTd.contacts.append(contacts);
     }
 
@@ -209,12 +200,12 @@
   }
 
   function createUserContacts(contacts) {
-    if(contacts.length) {
+    if (contacts.length) {
       const list = document.createElement("ul");
       list.classList.add("users__contacts");
 
 
-      for(let i = 0; i < contacts.length; i++) {
+      for (let i = 0; i < contacts.length; i++) {
 
         const contact = contacts[i];
         const item = document.createElement("li");
@@ -222,8 +213,8 @@
 
         item.classList.add("users__contact");
 
-        if(contacts.length !== MAX_COUNT_USER_CONTACTS) {
-          if(i >= MAX_COUNT_USER_CONTACTS-1) {
+        if (contacts.length !== MAX_COUNT_USER_CONTACTS) {
+          if (i >= MAX_COUNT_USER_CONTACTS - 1) {
             item.classList.add("d-none");
           }
         }
@@ -243,7 +234,7 @@
 
       const diff = contacts.length - MAX_COUNT_USER_CONTACTS;
 
-      if(diff > 0) {
+      if (diff > 0) {
         const item = document.createElement("li");
         const btn = document.createElement("button");
         item.classList.add("users__contact");
@@ -261,27 +252,23 @@
 
   function formatDate(date) {
     const newDate = new Date(date);
-
-    const formatDate = newDate.toLocaleDateString();
-    const formatTime = newDate.toLocaleTimeString().slice(0,-3);
-
-    return `<span class="users__item-date">${formatDate}</span><span class="users__item-time">${formatTime}</span>`;
+    return `<span class="users__item-date">${newDate.toLocaleDateString()}</span><span class="users__item-time">${newDate.toLocaleTimeString().slice(0,-3)}</span>`;
   }
 
   function setEvents() {
     const btnAdd = appContainer.querySelector(".btn-callmodal-add-user");
-    btnAdd.addEventListener("click", async e=>{
+    btnAdd.addEventListener("click", async e => {
       e.preventDefault();
       modal = createModalMain();
       appContainer.append(modal);
       showModal();
     });
 
-    appContainer.addEventListener("click", async e=>{
+    appContainer.addEventListener("click", async e => {
       const target = e.target;
       let element = null;
 
-      if(element = target.closest(".users__btn-delete")) {
+      if (element = target.closest(".users__btn-delete")) {
         e.preventDefault();
 
         setBtnLoading(element);
@@ -292,7 +279,7 @@
 
         const data = await getUserDataById(currentUserId);
 
-        if(data) {
+        if (data) {
           appContainer.append(modal);
           showModal();
         }
@@ -300,7 +287,7 @@
         stopBtnLoading(element);
       }
 
-      if(element = target.closest(".users__btn-edit")) {
+      if (element = target.closest(".users__btn-edit")) {
         e.preventDefault();
 
         setBtnLoading(element);
@@ -311,7 +298,7 @@
 
         const data = await getUserDataById(currentUserId);
 
-        if(data) {
+        if (data) {
           setUserModal(data);
           appContainer.append(modal);
           showModal();
@@ -320,40 +307,37 @@
         stopBtnLoading(element);
       }
 
-      if(element = target.closest(".btn-sort")) {
+      if (element = target.closest(".btn-sort")) {
 
-          orderBy = element.getAttribute("data-order");
-          sortBy = element.getAttribute("data-sort");
+        orderBy = element.getAttribute("data-order");
+        sortBy = element.getAttribute("data-sort");
 
-          if(element.classList.contains("btn-sort--selected")) {
+        if (element.classList.contains("btn-sort--selected")) {
 
-            if(sortBy === "asc") {
-              element.setAttribute("data-sort", "desc");
-            }
-            else {
-              element.setAttribute("data-sort", "asc");
-            }
+          if (sortBy === "asc") {
+            element.setAttribute("data-sort", "desc");
+          } else {
+            element.setAttribute("data-sort", "asc");
           }
-          else {
-            if(sortBy === "asc") {
-              sortBy = "desc";
-            }
-            else {
-              sortBy = "asc";
-            }
+        } else {
+          if (sortBy === "asc") {
+            sortBy = "desc";
+          } else {
+            sortBy = "asc";
           }
+        }
 
-          setBtnSortSelected(element);
-          renderUsers(usersData);
+        setBtnSortSelected(element);
+        renderUsers(usersData);
 
       }
 
-      if(element = target.closest(".users__contact-link--more")) {
+      if (element = target.closest(".users__contact-link--more")) {
         const parent = element.closest(".users__contacts");
         const items = parent.querySelectorAll(".users__contact.d-none");
 
-        if(items.length) {
-          for(let i=0; i<items.length; i++) {
+        if (items.length) {
+          for (let i = 0; i < items.length; i++) {
             items[i].classList.remove("d-none");
           }
         }
@@ -365,26 +349,148 @@
 
     const search = appContainer.querySelector(".search-input");
     let searchTimer = null;
-    search.addEventListener("input", e=>{
+    search.addEventListener("keyup", e => {
 
       const value = e.target.value;
-      clearTimeout(searchTimer);
 
-      searchTimer = setTimeout(e=>{
-        startSearch(value);
-      }, 300);
+      if (searchHint) {
 
+        if (e.key === 'Enter') {
+          hideSearchHints();
+          unsetSearchHints();
+          showCheckedUsers(search.value);
 
+          return false;
+        }
+
+        setSearchHints(value);
+        showSearchHints();
+      } else {
+        clearTimeout(searchTimer);
+
+        searchTimer = setTimeout(e => {
+          startSearch(value);
+        }, 300);
+      }
     });
+
+    const hints = appContainer.querySelector(".search-input-hints");
+
+    hints.addEventListener("click", async e => {
+      const target = e.target;
+      let element = null;
+
+      if (element = target.closest(".search-input-hints__item")) {
+        search.value = element.innerHTML;
+        hideSearchHints();
+        unsetSearchHints();
+        showCheckedUsers(search.value);
+      }
+    });
+  }
+
+  function showCheckedUsers(query = "") {
+
+    let users = document.querySelectorAll(".users__item-name");
+
+    if (users.length <= 0) {
+      return;
+    }
+
+    if (users.length) {
+
+      for (let i = 0; i < users.length; i++) {
+        const userName = users[i];
+        const user = userName.closest(".users_element");
+        if (user) {
+          user.classList.remove("users_element--search");
+        }
+      }
+
+    }
+
+    if (query.length <= 0) {
+      return;
+    }
+
+    query = query.toLowerCase();
+    users = Array.from(users).filter(item => {
+      const text = item.textContent.toLowerCase();
+      if (text.includes(query)) {
+        return item;
+      }
+    });
+
+    if (users.length) {
+
+      for (let i = 0; i < users.length; i++) {
+        const userName = users[i];
+        const user = userName.closest(".users_element");
+
+        if (user) {
+          user.classList.add("users_element--search");
+        }
+      }
+
+      const firstUser = users[0];
+      const elemRect = firstUser.getBoundingClientRect();
+      window.scrollBy({
+        top: elemRect.top - 100,
+        behavior: 'smooth'
+      });
+
+    }
+
+  }
+
+  function showSearchHints() {
+    const hints = appContainer.querySelector('.search-input-hints');
+
+    if (hints.children.length) {
+      hints.classList.add("search-input-hints--show");
+    } else {
+      hints.classList.remove("search-input-hints--show");
+    }
+  }
+
+  function hideSearchHints() {
+    const hints = appContainer.querySelector('.search-input-hints');
+    hints.classList.remove("search-input-hints--show");
+  }
+
+  async function setSearchHints(query = "") {
+    const usersList = await getSearchResult(query);
+
+    const hints = appContainer.querySelector('.search-input-hints');
+    hints.innerHTML = "";
+
+    if (usersList.length) {
+      for (let i = 0; i < usersList.length; i++) {
+        hints.append(createSearchHints(usersList[i]));
+      }
+    }
+  }
+
+  function unsetSearchHints() {
+    const hints = appContainer.querySelector('.search-input-hints');
+    hints.innerHTML = "";
+  }
+
+  function createSearchHints(item) {
+    const hint = document.createElement("li");
+    hint.classList.add("search-input-hints__item");
+    hint.innerHTML = [item.surname, item.name, item.lastName].join(" ").trim();
+
+    return hint;
   }
 
   function setBtnSortSelected(element) {
 
-    if(element.classList.contains("btn-sort--selected")) {
+    if (element.classList.contains("btn-sort--selected")) {
       return;
     }
     const selected = appContainer.querySelector(".btn-sort--selected");
-    if(selected){
+    if (selected) {
       selected.classList.remove("btn-sort--selected");
     }
     element.classList.add("btn-sort--selected");
@@ -395,11 +501,11 @@
 
       const res = await fetch(`${HOST}/api/clients/?search=${query}`);
 
-      if(res.status === 200) {
+      if (res.status === 200) {
         const data = res.json();
         return data;
 
-      } else if(res.status === 404) {
+      } else if (res.status === 404) {
 
         const text = await res.json();
         throw new Error(text.message);
@@ -407,25 +513,45 @@
       }
 
     } catch (err) {
-      createStatusBlockItem(err.message);
+
+      if (err.name === "Error") {
+        createStatusBlockItem(err.message);
+      } else {
+        throw err;
+      }
     }
   }
 
-  async function startSearch(query="") {
+  function startSearchLoading() {
+    const block = appContainer.querySelector(".section-users");
+    block.classList.add("section-search--loading");
+  }
+
+  function stopSearchLoading() {
+    const block = appContainer.querySelector(".section-users");
+    block.classList.remove("section-search--loading");
+  }
+
+  async function startSearch(query = "") {
+
+    startSearchLoading();
+    await wait(1000);
 
     usersData = await getSearchResult(query);
 
     renderUsers(usersData);
 
-    if(!usersData.length) {
+    if (!usersData.length) {
       createStatusBlockItem("Ничего не найдено :(");
     }
+
+    stopSearchLoading();
 
   }
 
   function setUserModal(data) {
 
-    if(data) {
+    if (data) {
 
       const form = modal.querySelector('form');
 
@@ -443,7 +569,7 @@
   }
 
   function setModalContacts(contacts) {
-    if(contacts.length) {
+    if (contacts.length) {
 
       const form = modal.querySelector("form");
       const row = form.querySelector(".modal__row-contacts");
@@ -451,7 +577,7 @@
 
       row.classList.remove("modal__row--short");
 
-      for(let i=0; i<contacts.length; i++) {
+      for (let i = 0; i < contacts.length; i++) {
         const contact = contacts[i];
         const item = createModalMainFieldsSelect();
 
@@ -464,21 +590,21 @@
   }
 
   function setSelect(selectRow, type, value) {
-    setInputText(selectRow.querySelector(".field-text-border"), value);
+    setInputText(selectRow.querySelector(".field-text-contact"), value);
 
-    const btnValue = selectRow.querySelector(".field-select__value");
-    const list = selectRow.querySelector(".field-select__list");
+    const btnValue = selectRow.querySelector(".field-contact__value");
+    const list = selectRow.querySelector(".field-contact__list");
 
-    if(list.children.length) {
-      for(let i=0; i<list.children.length; i++) {
+    if (list.children.length) {
+      for (let i = 0; i < list.children.length; i++) {
         const item = list.children[i];
-        item.classList.remove("field-select__item--selected");
-        const input = item.querySelector(".field-select__radio");
-        const desc = item.querySelector(".field-select__desc");
+        item.classList.remove("field-contact__item--selected");
+        const input = item.querySelector(".field-contact__radio");
+        const desc = item.querySelector(".field-contact__desc");
 
-        if(input.value == type) {
+        if (input.value == type) {
           input.checked = true;
-          item.classList.add("field-select__item--selected");
+          item.classList.add("field-contact__item--selected");
           btnValue.innerHTML = desc.innerHTML;
         }
       }
@@ -489,9 +615,9 @@
   function setInputText(input, value) {
     input.value = value;
 
-    if(value.length) {
+    if (value.length) {
       const parent = input.closest(".field-wrapper");
-      if(parent) {
+      if (parent) {
         parent.classList.add("field-wrapper--no-empty");
       }
     }
@@ -500,19 +626,18 @@
 
   function initEventInput(inputs) {
 
-    if(inputs.length<=0) {
+    if (inputs.length <= 0) {
       return;
     }
 
-    for(let i = 0; i<inputs.length; i++) {
-      inputs[i].addEventListener("blur", e=>{
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].addEventListener("blur", e => {
         const target = e.target;
         const parent = target.closest(".field-wrapper");
 
-        if(target.value.length) {
+        if (target.value.length) {
           parent.classList.add("field-wrapper--no-empty");
-        }
-        else {
+        } else {
           parent.classList.remove("field-wrapper--no-empty");
         }
       });
@@ -527,11 +652,11 @@
         method: 'GET',
       });
 
-      if(res.status === 200) {
+      if (res.status === 200) {
         const data = res.json();;
         return data;
 
-      } else if(res.status === 404) {
+      } else if (res.status === 404) {
 
         const text = await res.json();
         throw new Error(text.message);
@@ -540,16 +665,22 @@
 
 
     } catch (err) {
-      createStatusBlockItem(err.message);
+      if (err.name === "Error") {
+        createStatusBlockItem(err.message);
+      } else {
+        throw err;
+      }
     }
   }
 
   function setBtnLoading(target) {
     target.classList.add("users__btn--loading");
+    target.setAttribute("disabled", true);
   }
 
   function stopBtnLoading(target) {
     target.classList.remove("users__btn--loading");
+    target.removeAttribute("disabled");
   }
 
   async function deleteUser() {
@@ -560,7 +691,7 @@
         method: 'DELETE',
       });
 
-      if(res.status === 200) {
+      if (res.status === 200) {
         startLoadingUsersBlock();
 
         usersData = await getData();
@@ -571,7 +702,7 @@
         destroyModal();
         stopLoadingUsersBlock();
 
-      } else if(res.status === 404) {
+      } else if (res.status === 404) {
 
         const text = await res.json();
         throw new Error(text.message);
@@ -580,7 +711,11 @@
 
 
     } catch (err) {
-      setErrors([err.message]);
+      if (err.name === "Error") {
+        setErrors([err.message]);
+      } else {
+        throw err;
+      }
     }
   }
 
@@ -588,11 +723,11 @@
 
     deleteErrors();
 
-    if(arrErrors.length) {
+    if (arrErrors.length) {
       const form = modal.querySelector("form");
       const errors = form.querySelector(".form__errors-messages");
 
-      for(let i = 0; i < arrErrors.length; i++) {
+      for (let i = 0; i < arrErrors.length; i++) {
         const error = document.createElement("li");
         error.classList.add("form__errors-message");
         error.innerHTML = arrErrors[i];
@@ -619,7 +754,7 @@
 
     setTimeout(() => {
       item.classList.add("status-block__item--show");
-    },50);
+    }, 50);
 
     setTimeout(() => {
       item.classList.remove("status-block__item--show");
@@ -653,53 +788,53 @@
     container.append(content);
     newModal.append(shadow, container);
 
-    newModal.addEventListener("click", e=> {
+    newModal.addEventListener("click", e => {
       const target = e.target;
 
-      if(target.closest(".js-close-modal")) {
+      if (target.closest(".js-close-modal")) {
         e.preventDefault();
         destroyModal();
       }
 
-      if(target.closest(".form__btn-add-contact")) {
+      if (target.closest(".form__btn-add-contact")) {
         e.preventDefault();
         addContact();
         checkCountContacts();
       }
 
-      if(target.closest(".field-select__input")) {
+      if (target.closest(".field-contact__input")) {
         e.preventDefault();
-        showSelect(target.closest(".field-select__input"));
+        showSelect(target.closest(".field-contact__input"));
       }
 
-      if(target.closest(".field-select__item")) {
-        setSelectValue(target.closest(".field-select__item"));
+      if (target.closest(".field-contact__item")) {
+        setSelectValue(target.closest(".field-contact__item"));
         hideSelect();
       }
 
-      if(target.closest(".btn-add-user")) {
+      if (target.closest(".btn-add-user")) {
         e.preventDefault();
         addUser();
       }
 
-      if(!target.closest(".field-select")) {
+      if (!target.closest(".field-contact")) {
         hideSelect();
       }
 
-      if(target.closest(".delete-contact")) {
+      if (target.closest(".delete-contact")) {
         e.preventDefault();
         deleteContact(target);
         checkCountContacts();
       }
 
-      if(target.closest(".btn-delete-user")) {
+      if (target.closest(".btn-delete-user")) {
         e.preventDefault();
         deleteErrors();
         deleteUser();
       }
 
 
-      if(target.closest(".btn-update-user")) {
+      if (target.closest(".btn-update-user")) {
         e.preventDefault();
         deleteErrors();
         updateUser();
@@ -708,9 +843,14 @@
 
     });
 
+    newModal.addEventListener("input", e => {
+      const target = e.target;
+      unsetInputTextError(target);
+      unsetInputSelectError(target);
+    });
+
     return newModal;
   }
-
 
   function createModalDelete() {
     const newModal = createModal();
@@ -741,7 +881,6 @@
 
     titleRow.append(title, subtitle);
 
-
     controlsRow.classList.add("modal__row");
     btnDeleteWrapper.classList.add("form__btn-wrapper", "modal__btn-wrapper");
     btnCancelWrapper.classList.add("modal__btn-wrapper");
@@ -761,7 +900,7 @@
     return newModal;
   }
 
-  function createModalMain(edit=false) {
+  function createModalMain(edit = false) {
 
     const newModal = createModal();
     const content = newModal.querySelector(".modal__content");
@@ -788,10 +927,9 @@
     title.classList.add("modal__title");
     title.innerHTML = "Новый клиент";
 
-    if(edit) {
-      title.innerHTML = `Изменить данные <span class="modal__title-id">ID: ${currentUserId}</span>`;
+    if (edit) {
+      title.innerHTML = `<span class="modal__title--mr">Изменить данные</span><span class="modal__title-id">ID: ${currentUserId}</span>`;
     }
-
 
     fieldsRow.append(title, fieldsGroup);
 
@@ -817,10 +955,14 @@
     btnCancelWrapper.classList.add("modal__btn-wrapper");
     btnCancel.classList.add("btn-link", "modal__btn", "js-close-modal");
 
-    btnSave.innerHTML = "Сохранить";
+    btnSave.innerHTML = `
+      <svg class="load-svg">
+        <use xlink:href="images/sprite.svg#spinner" />
+      </svg>
+      Сохранить`;
     btnCancel.innerHTML = "Отмена";
 
-    if(edit) {
+    if (edit) {
       btnSave.classList.remove("btn-add-user");
       btnSave.classList.add("btn-update-user");
       btnCancel.innerHTML = "Удалить клиента";
@@ -848,8 +990,7 @@
 
   function createModalMainFieldsInput() {
     const fieldsGroup = document.createElement("div");
-    const fields = [
-      {
+    const fields = [{
         code: "surname",
         required: true,
         name: "Фамилия"
@@ -866,7 +1007,7 @@
       }
     ];
 
-    for(let i=0; i<fields.length; i++) {
+    for (let i = 0; i < fields.length; i++) {
       const field = fields[i];
       const item = document.createElement("label");
       const input = document.createElement("input");
@@ -878,8 +1019,7 @@
       desc.classList.add("field-desc");
       desc.textContent = field.name;
 
-      if(field.required) {
-        input.classList.add("field-text--require");
+      if (field.required) {
         const star = document.createElement("span");
         star.classList.add("field-desc__star");
         star.textContent = "*";
@@ -906,46 +1046,44 @@
     const deleteBtn = document.createElement("button");
 
 
-    select.classList.add("field-select");
-    fieldsRow.classList.add("field-row");
-    selectBtn.classList.add("field-select__input");
-    selectBtn.innerHTML = `<span class="field-select__value"></span>
-      <svg class="field-select__arrow">
+    select.classList.add("field-contact");
+    fieldsRow.classList.add("field-row", "field-contact-row");
+    selectBtn.classList.add("field-contact__input");
+    selectBtn.innerHTML = `<span class="field-contact__value"></span>
+      <svg class="field-contact__arrow">
         <use xlink:href="images/sprite.svg#shevron" />
       </svg>`;
-    selectList.classList.add("field-select__list");
+    selectList.classList.add("field-contact__list");
 
-    for(const type in fieldsContact) {
+    for (const type in fieldsContact) {
       const value = fieldsContact[type];
       const item = document.createElement("label");
       const input = document.createElement("input");
       const desc = document.createElement("span");
 
-      item.classList.add("field-select__item");
-      input.classList.add("field-select__radio");
+      item.classList.add("field-contact__item");
+      input.classList.add("field-contact__radio");
       input.type = "radio";
       input.name = `contactsType_${countSelectContacts}`;
       input.value = type;
       desc.textContent = value;
-      desc.classList.add("field-select__desc");
+      desc.classList.add("field-contact__desc");
 
       item.append(input, desc);
 
       selectList.append(item);
     }
 
-
-
     const firstItem = selectList.firstChild;
-    firstItem.classList.add("field-select__item--selected");
+    firstItem.classList.add("field-contact__item--selected");
     const firstInput = firstItem.querySelector("input");
     firstInput.checked = true;
-    const mainDesc = selectBtn.querySelector(".field-select__value");
+    const mainDesc = selectBtn.querySelector(".field-contact__value");
     mainDesc.textContent = fieldsContact["phone"];
 
-    inputContact.classList.add("field-text-border");
+    inputContact.classList.add("field-text-border", "field-text-contact");
     inputContact.placeholder = "Введите данные контакта";
-    inputContact.name=`contactsValue_${countSelectContacts}`;
+    inputContact.name = `contactsValue_${countSelectContacts}`;
 
 
     deleteBtn.classList.add("delete-contact", "tooltip");
@@ -967,7 +1105,7 @@
 
   function destroyModal() {
 
-    if(!modal) {
+    if (!modal) {
       return;
     }
 
@@ -986,12 +1124,11 @@
 
   function showModal() {
 
-    if(!modal) {
+    if (!modal) {
       return;
     }
 
     document.body.classList.add("overflow-hidden");
-
     modal.classList.add("modal--display");
 
     setTimeout(() => {
@@ -999,16 +1136,15 @@
     }, 50);
   }
 
-  function checkCountContacts(){
+  function checkCountContacts() {
     const list = modal.querySelector(".fields-group-contacts");
     const btn = modal.querySelector(".form__btn-add-contact");
 
-    if(list.children.length >= MAX_COUNT_ADD_CONTACTS) {
+    if (list.children.length >= MAX_COUNT_ADD_CONTACTS) {
       btn.classList.add("d-none");
       list.classList.add("fields-group--no-mb");
       return false;
-    }
-    else {
+    } else {
       list.classList.remove("fields-group--no-mb");
       btn.classList.remove("d-none");
     }
@@ -1019,10 +1155,13 @@
   function startLoadingSaveModal() {
     const btnSave = modal.querySelector(".btn-submit");
     btnSave.classList.add("btn-loading");
+    btnSave.setAttribute("disabled", true);
   }
 
   function stopLoadingSaveModal() {
-    destroyModal();
+    const btnSave = modal.querySelector(".btn-submit");
+    btnSave.classList.remove("btn-loading");
+    btnSave.removeAttribute("disabled");
   }
 
   function getUserContacts() {
@@ -1033,22 +1172,21 @@
     const contactsTypes = {};
     const contactsValues = {};
 
-    for(const [key, value] of formData.entries()) {
+    for (const [key, value] of formData.entries()) {
 
       if (/^contactsType/i.test(key)) {
         const index = key.split('_')[1];
         contactsTypes[`id_${index}`] = value;
 
-      }
-      else if (/^contactsValue/i.test(key)) {
+      } else if (/^contactsValue/i.test(key)) {
         const index = key.split('_')[1];
         contactsValues[`id_${index}`] = value;
       }
     }
 
-    for(const index in contactsTypes) {
+    for (const index in contactsTypes) {
 
-      if(contactsValues[index].length) {
+      if (contactsValues[index].length) {
         contacts.push({
           type: contactsTypes[index],
           value: contactsValues[index],
@@ -1056,7 +1194,6 @@
       }
     }
 
-    console.log(contacts);
     return contacts;
   }
 
@@ -1084,7 +1221,15 @@
 
   async function updateUser() {
 
+    if (!validation()) {
+      return false;
+    }
+
     try {
+
+      startLoadingSaveModal();
+      await wait(1000);
+
       const user = createUserData();
 
       const res = await fetch(`${HOST}/api/clients/${currentUserId}`, {
@@ -1095,25 +1240,100 @@
         }
       });
 
-      if(res.status === 200) {
-
-        startLoadingSaveModal();
-
-        await wait(200);
+      if (res.status === 200) {
 
         usersData = await getData();
         renderUsers(usersData);
-        stopLoadingSaveModal();
+        destroyModal();
+
+      }
+
+      if (res.status === 422) {
+        const text = await res.json();
+        const errorsMessage = [];
+        for (let i = 0; i < text.errors.length; i++) {
+          errorsMessage.push(text.errors[i].message);
+        }
+
+        throw new Error(errorsMessage.join(";"));
       }
 
     } catch (err) {
-      setErrors(err.message.split(";"));
+
+      if (err.name === "Error") {
+        setErrors(err.message.split(";"));
+      } else {
+        throw err;
+      }
+
+    } finally {
+      stopLoadingSaveModal();
     }
+  }
+
+  function setInputTextError(input) {
+    input.classList.add("field-text--error");
+  }
+
+  function unsetInputTextError(input) {
+    input.classList.remove("field-text--error");
+  }
+
+  function setInputSelectError(input) {
+    const parent = input.closest(".field-contact-row");
+    if (parent) {
+      parent.classList.add("field-contact-row--error");
+    }
+  }
+
+  function unsetInputSelectError(input) {
+    const parent = input.closest(".field-contact-row");
+    if (parent) {
+      parent.classList.remove("field-contact-row--error");
+    }
+  }
+
+  function validation() {
+
+    let success = true;
+    const form = modal.querySelector("form");
+
+    ["name", "surname"].map(item => {
+      const input = form.querySelector(`input[name="${item}"]`);
+      if (input.value.length <= 0) {
+        setInputTextError(input);
+        success = false;
+      }
+    });
+
+    const contacts = form.querySelectorAll("input.field-text-contact");
+
+    if (contacts.length) {
+
+      for (let i = 0; i < contacts.length; i++) {
+        const contact = contacts[i];
+
+        if (contact.value.length <= 0) {
+          setInputSelectError(contact);
+          success = false;
+        }
+
+      }
+    }
+
+    return success;
   }
 
   async function addUser() {
 
+    if (!validation()) {
+      return false;
+    }
+
     try {
+
+      startLoadingSaveModal();
+      await wait(1000);
 
       const user = createUserData();
 
@@ -1125,22 +1345,17 @@
         }
       });
 
-      if(res.status === 201) {
-
-        startLoadingSaveModal();
-
-        await wait(200);
-
+      if (res.status === 201) {
         usersData = await getData();
         renderUsers(usersData);
-        stopLoadingSaveModal();
+        destroyModal();
       }
 
 
-      if(res.status === 422) {
+      if (res.status === 422) {
         const text = await res.json();
         const errorsMessage = [];
-        for(let i=0; i<text.errors.length; i++) {
+        for (let i = 0; i < text.errors.length; i++) {
           errorsMessage.push(text.errors[i].message);
         }
 
@@ -1148,45 +1363,51 @@
       }
 
     } catch (err) {
-      setErrors(err.message.split(";"));
+      if (err.name === "Error") {
+        setErrors(err.message.split(";"));
+      } else {
+        throw err;
+      }
+    } finally {
+      stopLoadingSaveModal();
     }
 
   }
 
   function setSelectValue(target) {
-    const select = target.closest(".field-select");
-    const desc = target.querySelector(".field-select__desc");
-    const oldInput = select.querySelector(".field-select__item--selected");
-    const newValue = select.querySelector(".field-select__value");
+    const select = target.closest(".field-contact");
+    const desc = target.querySelector(".field-contact__desc");
+    const oldInput = select.querySelector(".field-contact__item--selected");
+    const newValue = select.querySelector(".field-contact__value");
 
-    oldInput.classList.remove("field-select__item--selected");
-    target.classList.add("field-select__item--selected");
+    oldInput.classList.remove("field-contact__item--selected");
+    target.classList.add("field-contact__item--selected");
     newValue.textContent = desc.textContent;
   }
 
   function showSelect(target) {
-    const select = target.closest(".field-select");
+    const select = target.closest(".field-contact");
 
-    if(!select) {
+    if (!select) {
       return false;
     }
 
-    select.classList.add("field-select--display");
+    select.classList.add("field-contact--display");
 
     setTimeout(() => {
-      select.classList.add("field-select--show");
+      select.classList.add("field-contact--show");
     }, 50);
 
   }
 
   function hideSelect() {
-    const selects = modal.querySelectorAll(".field-select--display");
-    if(selects.length) {
-      for(let i=0; i<selects.length; i++) {
-        selects[i].classList.remove("field-select--show");
+    const selects = modal.querySelectorAll(".field-contact--display");
+    if (selects.length) {
+      for (let i = 0; i < selects.length; i++) {
+        selects[i].classList.remove("field-contact--show");
 
         setTimeout(() => {
-          selects[i].classList.remove("field-select--display");
+          selects[i].classList.remove("field-contact--display");
         }, 500);
       }
     }
@@ -1196,7 +1417,7 @@
     const row = modal.querySelector(".modal__row-contacts");
     const list = modal.querySelector(".fields-group-contacts");
 
-    if(checkCountContacts()) {
+    if (checkCountContacts()) {
       row.classList.remove("modal__row--short");
       list.append(createModalMainFieldsSelect());
     }
@@ -1205,21 +1426,23 @@
   function deleteContact(target) {
     const row = modal.querySelector(".modal__row-contacts");
     const list = modal.querySelector(".fields-group-contacts");
-    const contact = target.closest(".field-row");
+    const contact = target.closest(".field-contact-row");
     contact.remove();
 
-    if(list.children.length<=0) {
+    if (list.children.length <= 0) {
       row.classList.add("modal__row--short");
     }
   }
 
   function createHeader() {
 
-    const header = document.createElement("header"),
-      headerContainer = document.createElement("div"),
-      logotype = document.createElement("img"),
-      logotypeLink = document.createElement("a"),
-      searchInput = document.createElement("input");
+    const header = document.createElement("header");
+    const headerContainer = document.createElement("div");
+    const logotype = document.createElement("img");
+    const logotypeLink = document.createElement("a");
+    const searchInput = document.createElement("input");
+    const searchInputWrapper = document.createElement("div");
+    const searchInputHints = document.createElement("ul");
 
     header.classList.add("header");
     headerContainer.classList.add("container-lg", "header__container");
@@ -1234,9 +1457,14 @@
     searchInput.type = "text";
     searchInput.placeholder = "Введите запрос";
 
+    searchInputWrapper.classList.add("search-input-wrapper");
+
+    searchInputHints.classList.add("search-input-hints");
+    searchInputWrapper.append(searchInput, searchInputHints);
+
     logotypeLink.append(logotype);
     headerContainer.append(logotypeLink);
-    headerContainer.append(searchInput);
+    headerContainer.append(searchInputWrapper);
     header.append(headerContainer);
 
     return header;
@@ -1301,8 +1529,7 @@
   }
 
   function createUsersHeader() {
-    const headerItemsSort = [
-      {
+    const headerItemsSort = [{
         code: "id",
         name: "ID",
         measure: "",
@@ -1328,8 +1555,7 @@
       }
     ];
 
-    const headerItems = [
-      {
+    const headerItems = [{
         code: "contacts",
         name: "Контакты"
       },
@@ -1341,7 +1567,7 @@
 
     const thead = document.createElement("thead");
 
-    for(let i=0; i<headerItemsSort.length; i++) {
+    for (let i = 0; i < headerItemsSort.length; i++) {
       const item = headerItemsSort[i];
 
       const th = document.createElement("th");
@@ -1350,7 +1576,7 @@
         <use xlink:href="images/sprite.svg#arrow" />
       </svg>`;
 
-      if(item.measure.length>0) {
+      if (item.measure.length > 0) {
         btn.innerHTML += `&nbsp;<span class="btn-sort__measure">${item.measure}</span>`;
       }
 
@@ -1368,14 +1594,13 @@
     const elementId = thead.querySelector(".btn-sort[data-order='id']");
     elementId.classList.add("btn-sort--selected");
 
-    for(let i=0; i<headerItems.length; i++) {
+    for (let i = 0; i < headerItems.length; i++) {
       const item = headerItems[i];
       const th = document.createElement("th");
       th.classList.add("users__header", `users__header-${item.code}`);
       th.textContent = item.name;
       thead.append(th);
     }
-
 
     return thead;
   }
