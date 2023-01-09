@@ -84,11 +84,11 @@
   border-bottom: 0.1rem solid rgb(200 197 209 / 50%);
 }
 
-.users_element--search .users__item {
+.users__element--search .users__item {
   background-color: #fff4b2;
 }
 
-.users_element--search .users__item-name {
+.users__element--search .users__item-name {
   font-weight: 700;
 }
 

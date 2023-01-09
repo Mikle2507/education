@@ -157,7 +157,7 @@
       user.append(td);
     }
 
-    user.classList.add("users_element");
+    user.classList.add("users__element");
 
     nodeTd.id.textContent = data.id;
     nodeTd.name.textContent = [data.surname, data.name, data.lastName].join(" ").trim();
@@ -349,6 +349,7 @@
 
     const search = appContainer.querySelector(".search-input");
     let searchTimer = null;
+
     search.addEventListener("keyup", e => {
 
       const value = e.target.value;
@@ -373,6 +374,17 @@
         }, 300);
       }
     });
+
+    if (searchHint) {
+      search.addEventListener("blur", e => {
+
+        if(search.value.length<=0) {
+          hideSearchHints();
+          unsetSearchHints();
+          showCheckedUsers(search.value);
+        }
+      });
+    }
 
     const hints = appContainer.querySelector(".search-input-hints");
 
@@ -401,9 +413,9 @@
 
       for (let i = 0; i < users.length; i++) {
         const userName = users[i];
-        const user = userName.closest(".users_element");
+        const user = userName.closest(".users__element");
         if (user) {
-          user.classList.remove("users_element--search");
+          user.classList.remove("users__element--search");
         }
       }
 
@@ -425,10 +437,10 @@
 
       for (let i = 0; i < users.length; i++) {
         const userName = users[i];
-        const user = userName.closest(".users_element");
+        const user = userName.closest(".users__element");
 
         if (user) {
-          user.classList.add("users_element--search");
+          user.classList.add("users__element--search");
         }
       }
 
@@ -766,7 +778,7 @@
   }
 
   function getElementIdByTarget(target) {
-    const element = target.closest(".users_element");
+    const element = target.closest(".users__element");
     const id = element.querySelector(".users__item-id");
     return id.textContent;
   }
