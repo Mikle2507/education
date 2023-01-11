@@ -1,0 +1,23 @@
+// если вы хотите использовать sass-переменные - удалите root
+// colors
+:root {
+  // base
+  --font-family-title: "TTFirsNeue", "Open Sans", sans-serif;
+  --font-family-text: "Roboto", "Arial", sans-serif;
+
+  // colors
+  --main-color: #ff6e30;
+  --main-medium-color: #bc572b;
+  --main-dark-color: #ce4307;
+  --error-light-color: #f06666;
+  --error-dark-color: #ff3030;
+  --focus-color: #ffd4c1;
+  --light-color: #fff;
+  --light-semi-color: #e9e9e9;
+  --light-medium-color: #cacaca;
+  --dark-color: #202020;
+  --dark-semi-color: rgb(32 32 32 / 85%);
+  --dark-medium-color: #4a4a4a;
+  --gray-color: #999;
+  --grey-color: #808080;
+}

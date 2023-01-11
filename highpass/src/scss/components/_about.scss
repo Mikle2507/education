@@ -1,0 +1,141 @@
+.about {
+  padding: 36px 0 71px;
+  background-color: var(--dark-color);
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+
+  &__title {
+    margin-bottom: 5px;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 16px;
+    line-height: 28px;
+    color: var(--light-color);
+  }
+
+  &__col-right {
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+  }
+
+  &__decoration {
+    @include bg-cover;
+    @include image-set("../img/about_decoration-lg");
+
+    margin: 29px 0 26px;
+    min-height: 200px;
+  }
+
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 13px 30px;
+
+    &-title {
+      grid-column: span 2;
+      margin: 0;
+    }
+
+    &-label {
+      margin-bottom: 0 !important; /* stylelint-disable-line declaration-no-important */
+      width: 100%;
+    }
+
+    &-input {
+      padding: 16px 23px;
+    }
+  }
+
+  &__btn {
+    padding: 13px 20px;
+  }
+}
+
+@include tablet {
+  .about {
+    padding-bottom: 81px;
+
+    &__decoration {
+      @include image-set("../img/about_decoration-md");
+    }
+
+    &__text {
+      margin: 0 0 7px;
+    }
+
+    &__form {
+      justify-items: start;
+      grid-template-columns: 1fr;
+      gap: 16px 30px;
+
+      &-title {
+        grid-column: auto;
+      }
+
+      &-input {
+        margin-bottom: 3px;
+        width: 73%;
+      }
+    }
+  }
+}
+
+@include medium-tablet {
+  .about {
+    padding-bottom: 56px;
+
+    &__decoration {
+      @include image-set("../img/about_decoration-sm");
+    }
+
+    &__form {
+      margin-bottom: 15px;
+
+      &-input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@include small-tablet {
+  .about {
+    padding-bottom: 60px;
+
+    &__content {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    &__text {
+      font-size: 14px;
+      line-height: 25px;
+    }
+
+    &__decoration {
+      @include image-set("../img/about_decoration-xs");
+
+      margin: 0 0 26px;
+      min-height: 278px;
+    }
+
+    &__form {
+      margin-bottom: 0;
+      gap: 15px 30px;
+
+      &-title {
+        font-size: 18px;
+      }
+
+      &-input {
+        padding: 11px 23px;
+      }
+    }
+  }
+}

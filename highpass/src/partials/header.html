@@ -1,0 +1,42 @@
+<header class="header">
+  <div class="container">
+    <div class="header__content">
+      <a href="/" class="logo-link header__logo-link">
+        @include('./components/_picture.html', {
+          "className": "logo",
+          "fileName": "logo",
+          "alt": "Логотип"
+          })
+      </a>
+
+      <div class="header__menu-wrapper">
+
+        <button class="btn-reset burger header__burger">
+          <span class="burger__line"></span>
+        </button>
+
+        <div class="header__menu-content menu-mob">
+          <button class="btn-reset menu-mob__close">
+            <svg class="menu-mob__close-svg">
+              <use xlink:href="img/sprite.svg#cross"></use>
+            </svg>
+          </button>
+          @include('./components/_nav.html')
+
+          <a href="tel:+749542423532" class="menu-mob__phone">
+            <svg class="menu-mob__phone-svg">
+              <use xlink:href="img/sprite.svg#phone"></use>
+            </svg>
+            +7 495 424-23-532</a>
+        </div>
+
+      </div>
+
+      <div class="header__search-wrapper">
+        @include('./components/_search.html')
+      </div>
+
+
+    </div>
+  </div>
+</header>

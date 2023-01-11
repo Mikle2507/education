@@ -1,0 +1,28 @@
+.logo-link {
+  display: inline-block;
+
+  &:focus-visible {
+    outline: 0;
+  }
+}
+
+.logo {
+  display: block;
+  height: 31px;
+
+  &__img {
+    height: 100%;
+  }
+}
+
+@include tablet {
+  .logo {
+    height: 27px;
+  }
+}
+
+@include small-tablet {
+  .logo {
+    height: 18px;
+  }
+}

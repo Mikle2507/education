@@ -1,0 +1,10 @@
+import { search } from "./components/search";
+import { menu } from "./components/menu";
+import { map } from "./components/map";
+import { form } from "./components/form";
+import { scrollByLink } from "./components/scroll-by-link";
+search();
+menu();
+map();
+form();
+scrollByLink();

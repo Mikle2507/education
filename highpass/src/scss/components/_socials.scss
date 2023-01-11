@@ -1,0 +1,39 @@
+.socials {
+  display: grid;
+  grid-auto-columns: min-content;
+  grid-auto-flow: column;
+  gap: 20px;
+
+  &__link {
+    outline: 0;
+
+    &-svg {
+      width: 30px;
+      height: 30px;
+      fill: var(--light-medium-color);
+      transition: fill 0.3s ease-in-out;
+    }
+
+    &:focus-visible &-svg {
+      fill: var(--main-medium-color);
+    }
+
+    &:active &-svg {
+      fill: var(--main-dark-color);
+    }
+  }
+}
+
+@include for-desktop {
+  .socials {
+    &__link:hover &__link-svg {
+      fill: var(--main-color);
+    }
+  }
+}
+
+@include medium-tablet {
+  .socials {
+    gap: 20px;
+  }
+}

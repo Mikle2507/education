@@ -1,0 +1,179 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.page {
+  height: 100%;
+  font-family: var(--font-family-text);
+  font-weight: 400;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-title);
+  font-weight: 700;
+}
+
+body {
+  min-height: 100%;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+}
+
+a {
+  text-decoration: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.is-hidden {
+  display: none !important; /* stylelint-disable-line declaration-no-important */
+}
+
+.list-reset {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.input-reset {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  border-radius: 0;
+  background-color: #fff;
+
+  &::-webkit-search-decoration,
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-results-button,
+  &::-webkit-search-results-decoration {
+    display: none;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+  width: 1px;
+  height: 1px;
+  clip: rect(0 0 0 0);
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 30px;
+  max-width: 1350px;
+}
+
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+button:focus-visible,
+input:focus-visible {
+  outline: 0;
+}
+
+.centered {
+  text-align: center;
+}
+
+.dis-scroll {
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  overscroll-behavior: none;
+}
+
+.page--ios .dis-scroll {
+  position: relative;
+}
+
+.section-title {
+  margin-top: 0;
+  margin-bottom: 17px;
+  font-size: 24px;
+  line-height: 104%;
+
+  &--light {
+    color: var(--light-color);
+  }
+}
+
+.main-phone {
+  display: flex;
+  align-items: center;
+  align-self: end;
+  font-family: var(--font-family-title);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: var(--main-color);
+  transition: color 0.3s ease-in-out;
+
+  &__svg {
+    width: 15px;
+    height: 15px;
+    fill: var(--main-color);
+    transform: translateY(-1px);
+    transition: fill 0.3s ease-in-out;
+  }
+
+  &:focus-visible {
+    outline: 0;
+    color: var(--light-color);
+  }
+
+  &:focus-visible &__svg {
+    fill: var(--light-color);
+  }
+}
+
+@include for-desktop {
+  .main-phone:hover {
+    color: var(--light-color);
+  }
+
+  .main-phone:hover .main-phone__svg {
+    fill: var(--light-color);
+  }
+}
+
+@include medium-tablet {
+  .container {
+    padding: 0 28px;
+  }
+}
+
+@include small-tablet {
+  .container {
+    padding: 0 21px;
+  }
+
+  .section-title {
+    font-size: 18px;
+  }
+}

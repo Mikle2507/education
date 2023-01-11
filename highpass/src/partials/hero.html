@@ -1,0 +1,44 @@
+<section id="hero" class="section hero">
+  <div class="container">
+    <div class="hero__content">
+      <div class="hero__main-content">
+        <div class="hashtag hero__hashtag">#мастеркласс</div>
+        <div class="hero__suptitle">Мастер-класс от Игоря Робова</div>
+        <h2 class="hero__title">Неоновый фотосет 2.0 7&nbsp;июля 20:00</h2>
+        <a class="btn-reset btn btn--primary hero__btn" href="#">Узнать больше</a>
+      </div>
+      <div class="hero__side-content">
+        <h2 class="section-title hero__section-title">Работы участников предыдущего мастер-класса</h2>
+        <ul class="list-reset hero__works">
+          <li class="hero__work">
+            <a href="#" class="hero__work-link" aria-label="Работа первого участника">
+              @include('./components/_picture.html', {
+                "className": "hero-work",
+                "fileName": "works_1",
+                "alt": "Работа первого участника"
+              })
+            </a>
+          </li>
+          <li class="hero__work-item">
+            <a href="#" class="hero__work-link" aria-label="Работа второго участника">
+              @include('./components/_picture.html', {
+                "className": "hero-work",
+                "fileName": "works_2",
+                "alt": "Работа второго участника"
+              })
+            </a>
+          </li>
+          <li class="hero__work-item">
+            <a href="#" class="hero__work-link" aria-label="Работа третьего участника">
+              @include('./components/_picture.html', {
+                "className": "hero-work",
+                "fileName": "works_3",
+                "alt": "Работа третьего участника"
+              })
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

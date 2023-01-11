@@ -1,0 +1,27 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer__content">
+      <div class="footer__company">
+        @include('./components/_picture.html', {
+          "className": "logo",
+          "fileName": "logo",
+          "alt": "Логотип"
+        })
+
+        <div class="footer__company-desc">
+          Фотостудия High pass<sup class="reg">&reg;</sup> 2018&ndash;2020
+        </div>
+
+      </div>
+      <div class="footer__text">
+        Которая из&nbsp;моих фотографий самая любимая?<br>
+        Та, которую я&nbsp;собираюсь снять завтра.<br>
+        &copy;&nbsp;Имоджен Каннингем
+      </div>
+      <div class="footer__socials">
+        <div class="footer__socials-title">Больше интересного:</div>
+        @include('./components/_socials.html')
+      </div>
+    </div>
+  </div>
+</footer>
