@@ -1,0 +1,205 @@
+:root {
+  --color-grey: #B0B0B0;
+  --color-grey-medium: #A1A1A1;
+  --color-grey-light: #C8C5D1;
+  --color-firm: #9873FF;
+  --color-firm-dark: #8052FF;
+  --color-firm-medium: #B89EFF;
+  --color-dark: #000000;
+  --color-dark-medium: #333333;
+  --color-light: #FFFFFF;
+  --color-gray: #808080;
+  --color-red: #F06A4D;
+
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: local("Open Sans Regular"), local("Open Sans-Regular"),
+    url("../fonts/opensans-regular.woff2") format("woff2"),
+    url("../fonts/opensans-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+  src: local("Open Sans semiBold"), local("Open Sans-semi-Bold"),
+    url("../fonts/opensans-semibold.woff2") format("woff2"),
+    url("../fonts/opensans-semibold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Open Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: local("Open Sans Bold"), local("Open Sans-Bold"),
+    url("../fonts/opensans-bold.woff2") format("woff2"),
+    url("../fonts/opensans-bold.woff") format("woff");
+}
+
+/* общие стили*/
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  background: #E5E5E5;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+a,
+button {
+  cursor: pointer;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+button:focus-visible {
+  outline: -webkit-focus-ring-color auto 0;
+}
+
+img {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+input {
+  width: auto;
+  height: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+input:focus {
+  outline: none;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.d-none {
+  display: none !important;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.container-lg {
+  margin: 0 auto;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  max-width: 136.6rem;
+}
+
+.container {
+  max-width: 122.6rem;
+  margin: 0 auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.section-title {
+  margin: 0 0 2.5rem;
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 3.3rem;
+}
+
+.spinner {
+  position: absolute;
+  display: none;
+  width: 6rem;
+  height: 6rem;
+  fill: none;
+  stroke: var(--color-firm);
+
+  transition: transform 0.5s ease;
+  -webkit-animation: rotate 0.7s infinite linear;
+  animation: rotate 0.7s infinite linear;
+}
+
+
+/* Тултип*/
+.tooltip {
+  position: relative;
+}
+
+.tooltip--active .tooltip__content {
+  display: block;
+}
+
+.tooltip__content {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 1.2rem);
+  transform: translateX(-50%);
+  display: none;
+  padding: 0.7rem 1.4rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  color: var(--color-light);
+  background-color: var(--color-dark-medium);
+}
+
+.tooltip__content::before {
+  content: '';
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  bottom: -0.8rem;
+  width: 0rem;
+  height: 0rem;
+  border-left: 0.5rem solid transparent;
+  border-right: 0.5rem solid transparent;
+  border-top: 0.8rem solid var(--color-dark-medium);
+}
+
+.tooltip:hover .tooltip__content {
+  display: block;
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
